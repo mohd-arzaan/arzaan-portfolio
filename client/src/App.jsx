@@ -4,6 +4,7 @@ import AdminLayout from "./components/AdminLayout";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminProjects from "./pages/AdminProjects";
 import AdminAbout from "./pages/AdminAbout";
+import AdminSkills from "./pages/AdminSkills";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="projects" element={<AdminProjects />} />
           <Route path="about" element={<AdminAbout />} />
+          <Route path="skills" element={<AdminSkills />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/admin" />} />
