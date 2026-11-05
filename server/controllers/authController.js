@@ -10,6 +10,10 @@ export const loginAdmin = async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
+    // DEBUG KE LIYE YE 2 LINES ADD KI HAIN
+    console.log("Postman Password:", password);
+    console.log("ENV Hash:", process.env.ADMIN_PASSWORD_HASH);
+
     // 2. Check Password
     const isMatch = await bcrypt.compare(password, process.env.ADMIN_PASSWORD_HASH);
     if (!isMatch) {
