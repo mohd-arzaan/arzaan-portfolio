@@ -3,21 +3,20 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminLayout from "./components/AdminLayout";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminProjects from "./pages/AdminProjects";
+import AdminAbout from "./pages/AdminAbout";
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Admin Login */}
         <Route path="/admin" element={<AdminLogin />} />
         
-        {/* Admin Protected Routes */}
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="projects" element={<AdminProjects />} />
+          <Route path="about" element={<AdminAbout />} />
         </Route>
 
-        {/* Default redirect */}
         <Route path="*" element={<Navigate to="/admin" />} />
       </Routes>
     </Router>
