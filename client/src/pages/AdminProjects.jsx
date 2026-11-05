@@ -7,13 +7,11 @@ const AdminProjects = () => {
     title: "",
     description: "",
     techStack: "",
-    image: "",
     liveLink: "",
     githubLink: "",
   });
   const [error, setError] = useState("");
 
-  // Fetch projects
   const fetchProjects = async () => {
     try {
       const { data } = await API.get("/projects");
@@ -27,18 +25,16 @@ const AdminProjects = () => {
     fetchProjects();
   }, []);
 
-  // Handle Form Input
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Add Project
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const techArray = formData.techStack.split(",").map((tech) => tech.trim());
       await API.post("/projects", { ...formData, techStack: techArray });
-      setFormData({ title: "", description: "", techStack: "", image: "", liveLink: "", githubLink: "" });
+      setFormData({ title: "", description: "", techStack: "", liveLink: "", githubLink: "" });
       fetchProjects();
       setError("");
     } catch (err) {
@@ -46,7 +42,6 @@ const AdminProjects = () => {
     }
   };
 
-  // Delete Project
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this project?")) {
       try {
@@ -64,13 +59,11 @@ const AdminProjects = () => {
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
-      {/* Add Project Form */}
       <div className="bg-white p-6 rounded-lg shadow-md mb-8">
         <h2 className="text-xl font-bold mb-4">Add New Project</h2>
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <input type="text" name="title" placeholder="Project Title" value={formData.title} onChange={handleChange} className="border p-2 rounded" required />
           <input type="text" name="techStack" placeholder="Tech Stack (comma separated)" value={formData.techStack} onChange={handleChange} className="border p-2 rounded" required />
-          <input type="text" name="image" placeholder="Image URL" value={formData.image} onChange={handleChange} className="border p-2 rounded" required />
           <input type="text" name="liveLink" placeholder="Live Link (Optional)" value={formData.liveLink} onChange={handleChange} className="border p-2 rounded" />
           <input type="text" name="githubLink" placeholder="GitHub Link (Optional)" value={formData.githubLink} onChange={handleChange} className="border p-2 rounded" />
           <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} className="border p-2 rounded md:col-span-2" rows="3" required></textarea>
@@ -78,7 +71,6 @@ const AdminProjects = () => {
         </form>
       </div>
 
-      {/* Projects List */}
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-xl font-bold mb-4">Existing Projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

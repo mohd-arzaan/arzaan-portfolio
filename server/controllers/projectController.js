@@ -5,17 +5,16 @@ import Project from "../models/Project.js";
 // @access  Private (Admin only)
 export const createProject = async (req, res) => {
   try {
-    const { title, description, techStack, image, liveLink, githubLink } = req.body;
+    const { title, description, techStack, liveLink, githubLink } = req.body;
 
-    if (!title || !description || !techStack || !image) {
-      return res.status(400).json({ message: "Please provide all required fields" });
+    if (!title || !description || !techStack) {
+      return res.status(400).json({ message: "Please provide title, description, and techStack" });
     }
 
     const project = await Project.create({
       title,
       description,
       techStack,
-      image,
       liveLink,
       githubLink,
     });
@@ -44,7 +43,6 @@ export const getProjects = async (req, res) => {
 export const updateProject = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
-
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
@@ -67,7 +65,6 @@ export const updateProject = async (req, res) => {
 export const deleteProject = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
-
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
