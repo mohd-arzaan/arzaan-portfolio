@@ -5,6 +5,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminProjects from "./pages/AdminProjects";
 import AdminAbout from "./pages/AdminAbout";
 import AdminSkills from "./pages/AdminSkills";
+import AdminSocials from "./pages/AdminSocials";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="projects" element={<AdminProjects />} />
           <Route path="about" element={<AdminAbout />} />
           <Route path="skills" element={<AdminSkills />} />
+          <Route path="socials" element={<AdminSocials />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/admin" />} />
