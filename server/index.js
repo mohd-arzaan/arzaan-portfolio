@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import authRoutes from "./routes/authRoutes.js"; // 1. Naya import
 
 dotenv.config();
 
@@ -10,12 +11,12 @@ const app = express();
 app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173" }));
 app.use(express.json());
 
-// Test Route
 app.get("/", (req, res) => {
   res.json({ message: "Arzaan Portfolio API running 🚀" });
 });
 
-// MongoDB Connection
+app.use("/api/auth", authRoutes); // 2. Naya route connect
+
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
