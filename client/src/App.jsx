@@ -1,10 +1,17 @@
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import AdminLogin from "./pages/AdminLogin";
+
 function App() {
   return (
-    <div className="min-h-screen bg-light flex items-center justify-center">
-      <h1 className="text-4xl font-bold text-primary">
-        Arzaan Portfolio — Setup Working ✅
-      </h1>
-    </div>
+    <Router>
+      <Routes>
+        {/* Admin Routes */}
+        <Route path="/admin" element={<AdminLogin />} />
+        
+        {/* Baaki routes baad mein add karenge */}
+        <Route path="*" element={<Navigate to="/admin" />} />
+      </Routes>
+    </Router>
   );
 }
 

@@ -2,7 +2,14 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import authRoutes from "./routes/authRoutes.js"; // 1. Naya import
+
+// Routes Import
+import authRoutes from "./routes/authRoutes.js";
+import projectRoutes from "./routes/projectRoutes.js";
+import aboutRoutes from "./routes/aboutRoutes.js";
+import skillRoutes from "./routes/skillRoutes.js";
+import socialRoutes from "./routes/socialRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
 
 dotenv.config();
 
@@ -15,7 +22,13 @@ app.get("/", (req, res) => {
   res.json({ message: "Arzaan Portfolio API running 🚀" });
 });
 
-app.use("/api/auth", authRoutes); // 2. Naya route connect
+// API Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api/about", aboutRoutes);
+app.use("/api/skills", skillRoutes);
+app.use("/api/socials", socialRoutes);
+app.use("/api/contacts", contactRoutes);
 
 const connectDB = async () => {
   try {
