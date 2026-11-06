@@ -1,189 +1,100 @@
-import { useState, useEffect } from "react";
 import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
-import {
-  FiGrid,
-  FiFolder,
-  FiUser,
-  FiCode,
-  FiShare2,
-  FiMail,
-  FiLogOut,
-  FiMenu,
-  FiX,
-  FiExternalLink,
-} from "react-icons/fi";
-
-const menuItems = [
-  { name: "Dashboard", path: "/admin/dashboard", icon: FiGrid },
-  { name: "Projects", path: "/admin/projects", icon: FiFolder },
-  { name: "About", path: "/admin/about", icon: FiUser },
-  { name: "Skills", path: "/admin/skills", icon: FiCode },
-  { name: "Social Links", path: "/admin/socials", icon: FiShare2 },
-  { name: "Messages", path: "/admin/messages", icon: FiMail },
-];
+import { 
+  FiGrid, FiFolder, FiUser, FiCode, FiShare2, FiMail, FiLogOut, FiArrowLeft
+} from "react-icons/fi"; 
 
 const AdminLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [open, setOpen] = useState(false); // mobile drawer
 
   const handleLogout = () => {
     localStorage.removeItem("adminToken");
     navigate("/admin");
   };
 
-  const isActive = (path) =>
-    location.pathname === path || location.pathname.startsWith(path + "/");
-
-  const current = menuItems.find((item) => isActive(item.path));
-
-  // Close drawer on navigation
-  useEffect(() => {
-    setOpen(false);
-  }, [location.pathname]);
-
-  // Close drawer with Escape
-  useEffect(() => {
-    const onKey = (e) => e.key === "Escape" && setOpen(false);
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  const menuItems = [
+    { name: "Dashboard", path: "/admin/dashboard", icon: <FiGrid strokeWidth={1.5} /> },
+    { name: "Projects", path: "/admin/projects", icon: <FiFolder strokeWidth={1.5} /> },
+    { name: "About", path: "/admin/about", icon: <FiUser strokeWidth={1.5} /> },
+    { name: "Skills", path: "/admin/skills", icon: <FiCode strokeWidth={1.5} /> },
+    { name: "Social Links", path: "/admin/socials", icon: <FiShare2 strokeWidth={1.5} /> },
+    { name: "Messages", path: "/admin/messages", icon: <FiMail strokeWidth={1.5} /> },
+  ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex font-sans">
-      {/* Mobile backdrop */}
-      <div
-        onClick={() => setOpen(false)}
-        className={`fixed inset-0 z-30 bg-dark/40 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
-          open ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
-      />
-
-      {/* Sidebar */}
-      <aside
-        className={`fixed inset-y-0 left-0 z-40 flex w-72 flex-col border-r border-gray-200 bg-white shadow-sm transition-transform duration-300 lg:static lg:translate-x-0 ${
-          open ? "translate-x-0 shadow-2xl" : "-translate-x-full"
-        }`}
-      >
-        {/* Brand */}
-        <div className="flex items-center justify-between border-b border-gray-100 px-6 py-6">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-base font-bold text-white shadow-md shadow-primary/30">
-              A
-            </div>
-            <div className="leading-tight">
-              <p className="text-lg font-bold text-dark">Admin Panel</p>
-              <p className="text-xs text-gray-500">Portfolio manager</p>
-            </div>
-          </div>
-          <button
-            onClick={() => setOpen(false)}
-            aria-label="Close menu"
-            className="rounded-lg p-2 text-gray-500 transition hover:bg-gray-100 hover:text-dark lg:hidden"
-          >
-            <FiX size={20} />
-          </button>
+    <div className="min-h-screen bg-light flex font-serif text-dark">
+      
+      {/* Sidebar - Elegant & Minimal */}
+      <aside className="w-[300px] bg-white border-r border-gray-200 flex flex-col fixed h-full z-20 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+        
+        {/* Logo Area */}
+        <div className="h-24 flex items-center px-10 border-b border-gray-100">
+          <Link to="/admin/dashboard" className="group">
+            <h1 className="text-3xl font-bold tracking-tight text-dark group-hover:text-primary transition-colors">
+              Arzaan<span className="text-primary">.</span>
+            </h1>
+            <p className="text-xs text-gray-400 tracking-widest uppercase mt-1">Admin Panel</p>
+          </Link>
         </div>
-
-        {/* Navigation */}
-        <nav className="flex-1 space-y-1 overflow-y-auto px-4 py-5">
-          <p className="mb-2 px-3 text-xs font-semibold text-gray-400">
-            Manage content
-          </p>
-          {menuItems.map(({ name, path, icon: Icon }) => {
-            const active = isActive(path);
+        
+        {/* Navigation Menu */}
+        <nav className="flex-1 px-6 py-8 space-y-2 overflow-y-auto">
+          {menuItems.map((item) => {
+            const isActive = location.pathname === item.path;
             return (
-              <Link
-                key={name}
-                to={path}
-                aria-current={active ? "page" : undefined}
-                className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
-                  active
-                    ? "bg-primary/10 font-semibold text-primary"
-                    : "font-medium text-gray-600 hover:bg-gray-50 hover:text-dark"
+              <Link 
+                key={item.name}
+                to={item.path} 
+                className={`group flex items-center gap-4 px-4 py-3.5 rounded-lg transition-all duration-300 ${
+                  isActive 
+                    ? "bg-primary text-white shadow-lg shadow-primary/20" 
+                    : "text-gray-500 hover:bg-gray-50 hover:text-dark"
                 }`}
               >
-                {/* Active indicator */}
-                {active && (
-                  <span className="absolute -left-4 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-primary" />
-                )}
-                <span
-                  className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors ${
-                    active
-                      ? "bg-primary text-white shadow-sm shadow-primary/30"
-                      : "bg-gray-100 text-gray-500 group-hover:bg-white group-hover:text-dark group-hover:shadow-sm"
-                  }`}
-                >
-                  <Icon size={18} />
+                <span className={`${isActive ? "text-white" : "text-gray-400 group-hover:text-primary"} transition-colors text-xl`}>
+                  {item.icon}
                 </span>
-                <span>{name}</span>
+                <span className={`text-[1.15rem] ${isActive ? "font-semibold" : "font-medium"}`}>
+                  {item.name}
+                </span>
               </Link>
             );
           })}
         </nav>
 
-        {/* Footer */}
-        <div className="space-y-2 border-t border-gray-100 p-4">
-          <div className="flex items-center gap-3 rounded-xl bg-gray-50 px-3 py-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
-              A
-            </div>
-            <div className="min-w-0 leading-tight">
-              <p className="truncate text-sm font-semibold text-dark">Admin</p>
-              <p className="flex items-center gap-1.5 text-xs text-gray-500">
-                <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                Signed in
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-xl p-3 font-medium text-red-600 transition-colors duration-200 hover:bg-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-300"
+        {/* Logout Area */}
+        <div className="p-6 border-t border-gray-100">
+          <button 
+            onClick={handleLogout} 
+            className="w-full flex items-center gap-4 px-4 py-3.5 rounded-lg text-gray-500 hover:bg-red-50 hover:text-red-600 transition-all duration-300 group"
           >
-            <FiLogOut size={20} />
-            Logout
+            <FiLogOut size={20} strokeWidth={1.5} className="text-gray-400 group-hover:text-red-500 transition-colors" />
+            <span className="text-[1.15rem] font-medium">Logout</span>
           </button>
         </div>
       </aside>
 
-      {/* Main */}
-      <div className="flex h-screen min-w-0 flex-1 flex-col">
-        {/* Top bar */}
-        <header className="flex items-center justify-between gap-4 border-b border-gray-200 bg-white/80 px-5 py-4 backdrop-blur sm:px-8 lg:px-10">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setOpen(true)}
-              aria-label="Open menu"
-              className="rounded-lg border border-gray-200 bg-white p-2 text-dark transition hover:bg-gray-50 lg:hidden"
-            >
-              <FiMenu size={20} />
-            </button>
-            <div className="leading-tight">
-              <p className="text-xs text-gray-500">Admin</p>
-              <p className="text-base font-bold text-dark">
-                {current ? current.name : "Overview"}
-              </p>
-            </div>
+      {/* Main Content Area */}
+      <main className="flex-1 ml-[300px] min-h-screen flex flex-col">
+        {/* Top Header */}
+        <header className="h-24 bg-white/80 backdrop-blur-md border-b border-gray-200 flex items-center justify-between px-10 sticky top-0 z-10">
+          <div>
+            <h2 className="text-2xl font-semibold text-dark capitalize">
+              {menuItems.find(item => item.path === location.pathname)?.name || "Dashboard"}
+            </h2>
           </div>
-
-          <a
-            href="/"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-dark transition hover:border-primary hover:text-primary"
-          >
-            View site
-            <FiExternalLink size={15} />
-          </a>
+          <Link to="/" target="_blank" className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-primary transition-colors bg-gray-50 hover:bg-primary/5 px-4 py-2 rounded-full">
+            View Live Site <FiArrowLeft className="rotate-135" />
+          </Link>
         </header>
 
-        {/* Content */}
-        <main className="flex-1 overflow-y-auto p-5 sm:p-8 lg:p-10">
-          <div className="mx-auto max-w-5xl">
+        {/* Content Wrapper */}
+        <div className="p-10 flex-1">
+          <div className="bg-white rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.04)] border border-gray-100 p-10 min-h-full">
             <Outlet />
           </div>
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   );
 };

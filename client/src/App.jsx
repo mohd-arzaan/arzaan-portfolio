@@ -11,27 +11,26 @@ import AdminMessages from "./pages/AdminMessages";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        {/* Admin Login Route */}
-        <Route path="/admin" element={<AdminLogin />} />
-        
-        {/* Admin Protected Routes */}
-        <Route element={<ProtectedRoute />}>
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="projects" element={<AdminProjects />} />
-            <Route path="about" element={<AdminAbout />} />
-            <Route path="skills" element={<AdminSkills />} />
-            <Route path="socials" element={<AdminSocials />} />
-            <Route path="messages" element={<AdminMessages />} />
+    <div className="font-sans">
+      <Router>
+        <Routes>
+          <Route path="/admin" element={<AdminLogin />} />
+          
+          <Route element={<ProtectedRoute />}>
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="projects" element={<AdminProjects />} />
+              <Route path="about" element={<AdminAbout />} />
+              <Route path="skills" element={<AdminSkills />} />
+              <Route path="socials" element={<AdminSocials />} />
+              <Route path="messages" element={<AdminMessages />} />
+            </Route>
           </Route>
-        </Route>
 
-        {/* Default redirect */}
-        <Route path="*" element={<Navigate to="/admin" />} />
-      </Routes>
-    </Router>
+          <Route path="*" element={<Navigate to="/admin" />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 

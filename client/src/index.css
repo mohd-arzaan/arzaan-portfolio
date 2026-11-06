@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -5,4 +6,20 @@
   --color-primary-dark: #1d4ed8;
   --color-dark: #0f172a;
   --color-light: #f8fafc;
+  
+  /* Font family define ki */
+  --font-sans: "Cormorant Garamond", serif;
+  --font-serif: "Cormorant Garamond", serif;
+}
+
+/* Poore body pe apply kar diya */
+body {
+  font-family: "Cormorant Garamond", serif;
+  background-color: #fafafa;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Serif font chhota lagta hai, isliye base text size thoda bada kiya hai */
+p, a, span, button, input, textarea, select {
+  font-size: 1.1rem; 
 }
