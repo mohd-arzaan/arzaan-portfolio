@@ -2,6 +2,10 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import dns from "dns";
+
+// Google DNS use karne ke liye (Network change issue fix)
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 // Routes Import
 import authRoutes from "./routes/authRoutes.js";
