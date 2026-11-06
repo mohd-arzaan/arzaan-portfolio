@@ -29,18 +29,18 @@ const Navbar = () => {
         isScrolled ? "bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100" : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
         <div className="flex justify-between items-center h-20">
           
-          {/* Logo */}
-          <div className="flex-shrink-0">
+          {/* Logo (Left) */}
+          <div className="flex-shrink-0 z-10">
             <Link to="/" className="text-2xl font-bold text-dark tracking-tight">
               Arzaan<span className="text-primary">.</span>
             </Link>
           </div>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
+          {/* Desktop Menu (Center) */}
+          <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center space-x-10">
             {navLinks.map((link) => (
               <a
                 key={link.name}
@@ -50,16 +50,10 @@ const Navbar = () => {
                 {link.name}
               </a>
             ))}
-            <a
-              href="#contact"
-              className="bg-primary text-white px-6 py-2.5 rounded-full font-medium shadow-lg shadow-primary/20 hover:bg-primary-dark hover:-translate-y-0.5 transition-all duration-300"
-            >
-              Hire Me
-            </a>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
+          {/* Mobile Menu Button (Right) */}
+          <div className="md:hidden flex items-center z-10">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-dark hover:text-primary focus:outline-none transition-colors"
@@ -87,13 +81,6 @@ const Navbar = () => {
               {link.name}
             </a>
           ))}
-          <a
-            href="#contact"
-            onClick={() => setIsOpen(false)}
-            className="block px-3 py-3 text-base font-medium text-white bg-primary rounded-lg text-center mt-4"
-          >
-            Hire Me
-          </a>
         </div>
       </div>
     </nav>
