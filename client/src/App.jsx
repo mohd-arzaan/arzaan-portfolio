@@ -8,14 +8,20 @@ import AdminAbout from "./pages/AdminAbout";
 import AdminSkills from "./pages/AdminSkills";
 import AdminSocials from "./pages/AdminSocials";
 import AdminMessages from "./pages/AdminMessages";
+import Home from "./pages/Home"; // <-- Naya import
 
 function App() {
   return (
     <div className="font-sans">
       <Router>
         <Routes>
+          {/* Frontend Website Route */}
+          <Route path="/" element={<Home />} />
+
+          {/* Admin Login Route */}
           <Route path="/admin" element={<AdminLogin />} />
           
+          {/* Admin Protected Routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/admin" element={<AdminLayout />}>
               <Route path="dashboard" element={<AdminDashboard />} />
@@ -27,7 +33,8 @@ function App() {
             </Route>
           </Route>
 
-          <Route path="*" element={<Navigate to="/admin" />} />
+          {/* Default redirect */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>
     </div>
