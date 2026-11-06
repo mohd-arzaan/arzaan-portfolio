@@ -50,47 +50,44 @@ const AdminLayout = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-light flex font-sans">
+    <div className="min-h-screen bg-gray-50 flex font-sans">
       {/* Mobile backdrop */}
       <div
         onClick={() => setOpen(false)}
-        className={`fixed inset-0 z-30 bg-dark/60 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 z-30 bg-dark/40 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
           open ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
       />
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex w-72 flex-col overflow-hidden bg-dark text-white shadow-2xl transition-transform duration-300 lg:static lg:translate-x-0 ${
-          open ? "translate-x-0" : "-translate-x-full"
+        className={`fixed inset-y-0 left-0 z-40 flex w-72 flex-col border-r border-gray-200 bg-white shadow-sm transition-transform duration-300 lg:static lg:translate-x-0 ${
+          open ? "translate-x-0 shadow-2xl" : "-translate-x-full"
         }`}
       >
-        {/* Soft glow behind the brand */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-primary/15 to-transparent" />
-
         {/* Brand */}
-        <div className="relative flex items-center justify-between px-7 py-7 border-b border-gray-700/50">
+        <div className="flex items-center justify-between border-b border-gray-100 px-6 py-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-base font-bold shadow-[0_0_20px_rgba(37,99,235,0.5)]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-base font-bold text-white shadow-md shadow-primary/30">
               A
             </div>
             <div className="leading-tight">
-              <p className="text-lg font-bold tracking-wide">Admin Panel</p>
-              <p className="text-xs text-gray-400">Portfolio manager</p>
+              <p className="text-lg font-bold text-dark">Admin Panel</p>
+              <p className="text-xs text-gray-500">Portfolio manager</p>
             </div>
           </div>
           <button
             onClick={() => setOpen(false)}
             aria-label="Close menu"
-            className="rounded-lg p-2 text-gray-400 transition hover:bg-white/5 hover:text-white lg:hidden"
+            className="rounded-lg p-2 text-gray-500 transition hover:bg-gray-100 hover:text-dark lg:hidden"
           >
             <FiX size={20} />
           </button>
         </div>
 
         {/* Navigation */}
-        <nav className="relative flex-1 space-y-1.5 overflow-y-auto px-5 py-6">
-          <p className="mb-3 px-3 text-xs font-semibold text-gray-500">
+        <nav className="flex-1 space-y-1 overflow-y-auto px-4 py-5">
+          <p className="mb-2 px-3 text-xs font-semibold text-gray-400">
             Manage content
           </p>
           {menuItems.map(({ name, path, icon: Icon }) => {
@@ -100,40 +97,40 @@ const AdminLayout = () => {
                 key={name}
                 to={path}
                 aria-current={active ? "page" : undefined}
-                className={`group relative flex items-center gap-3.5 rounded-xl px-3.5 py-3 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
                   active
-                    ? "bg-primary text-white shadow-lg shadow-primary/30"
-                    : "text-gray-400 hover:bg-white/5 hover:text-white"
+                    ? "bg-primary/10 font-semibold text-primary"
+                    : "font-medium text-gray-600 hover:bg-gray-50 hover:text-dark"
                 }`}
               >
                 {/* Active indicator */}
                 {active && (
-                  <span className="absolute -left-5 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-white" />
+                  <span className="absolute -left-4 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-primary" />
                 )}
                 <span
                   className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors ${
                     active
-                      ? "bg-white/15"
-                      : "bg-white/5 group-hover:bg-white/10"
+                      ? "bg-primary text-white shadow-sm shadow-primary/30"
+                      : "bg-gray-100 text-gray-500 group-hover:bg-white group-hover:text-dark group-hover:shadow-sm"
                   }`}
                 >
                   <Icon size={18} />
                 </span>
-                <span className="font-medium">{name}</span>
+                <span>{name}</span>
               </Link>
             );
           })}
         </nav>
 
         {/* Footer */}
-        <div className="relative space-y-3 border-t border-gray-700/50 p-5">
-          <div className="flex items-center gap-3 rounded-xl bg-white/5 px-3.5 py-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-sm font-bold">
+        <div className="space-y-2 border-t border-gray-100 p-4">
+          <div className="flex items-center gap-3 rounded-xl bg-gray-50 px-3 py-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
               A
             </div>
             <div className="min-w-0 leading-tight">
-              <p className="truncate text-sm font-semibold">Admin</p>
-              <p className="flex items-center gap-1.5 text-xs text-gray-400">
+              <p className="truncate text-sm font-semibold text-dark">Admin</p>
+              <p className="flex items-center gap-1.5 text-xs text-gray-500">
                 <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
                 Signed in
               </p>
@@ -141,7 +138,7 @@ const AdminLayout = () => {
           </div>
           <button
             onClick={handleLogout}
-            className="flex w-full items-center justify-center gap-3 rounded-xl bg-red-500/10 p-3.5 font-medium text-red-500 transition-all duration-300 hover:bg-red-500 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+            className="flex w-full items-center gap-3 rounded-xl p-3 font-medium text-red-600 transition-colors duration-200 hover:bg-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-300"
           >
             <FiLogOut size={20} />
             Logout
@@ -150,9 +147,9 @@ const AdminLayout = () => {
       </aside>
 
       {/* Main */}
-      <div className="flex h-screen min-w-0 flex-1 flex-col bg-[#f8fafc]">
+      <div className="flex h-screen min-w-0 flex-1 flex-col">
         {/* Top bar */}
-        <header className="flex items-center justify-between gap-4 border-b border-gray-200/70 bg-white/80 px-5 py-4 backdrop-blur sm:px-8 lg:px-10">
+        <header className="flex items-center justify-between gap-4 border-b border-gray-200 bg-white/80 px-5 py-4 backdrop-blur sm:px-8 lg:px-10">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setOpen(true)}
@@ -182,7 +179,7 @@ const AdminLayout = () => {
 
         {/* Content */}
         <main className="flex-1 overflow-y-auto p-5 sm:p-8 lg:p-10">
-          <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-5xl">
             <Outlet />
           </div>
         </main>
