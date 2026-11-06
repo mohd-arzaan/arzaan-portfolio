@@ -12,24 +12,25 @@ const EMPTY = {
 const LIMITS = { tagline: 120, description: 200, aboutText: 1200 };
 
 const inputClass =
-  "w-full rounded-xl border border-gray-200 bg-gray-50/60 px-4 py-2.5 text-sm text-dark placeholder-gray-400 " +
-  "transition focus:border-primary focus:bg-white focus:outline-none focus:ring-4 focus:ring-primary/10";
+  "w-full rounded-xl bg-gray-50/80 px-5 py-3.5 text-sm text-black placeholder:text-gray-400 ring-1 ring-black/[0.08] " +
+  "shadow-[inset_0_1px_2px_rgba(16,24,40,0.04)] transition-all duration-300 hover:bg-white hover:ring-black/20 " +
+  "focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary focus:shadow-[0_10px_24px_-12px_rgba(16,24,40,0.25)]";
 
 const Field = ({ label, hint, counter, children }) => (
   <div>
-    <div className="mb-1.5 flex items-baseline justify-between gap-3">
-      <label className="text-sm font-semibold text-dark">{label}</label>
+    <div className="mb-2 flex items-baseline justify-between gap-3">
+      <label className="text-sm font-semibold text-black">{label}</label>
       {counter}
     </div>
     {children}
-    {hint && <p className="mt-1.5 text-xs text-gray-500">{hint}</p>}
+    {hint && <p className="mt-2 text-xs text-black/55">{hint}</p>}
   </div>
 );
 
 const Counter = ({ value, max }) => (
   <span
     className={`text-xs tabular-nums ${
-      value > max ? "text-red-500" : "text-gray-400"
+      value > max ? "text-red-500" : "text-black/40"
     }`}
   >
     {value}/{max}
@@ -37,23 +38,25 @@ const Counter = ({ value, max }) => (
 );
 
 const SectionTitle = ({ title, text }) => (
-  <div className="mb-5">
-    <h2 className="text-lg font-bold text-dark">{title}</h2>
-    <p className="text-sm text-gray-500">{text}</p>
+  <div className="mb-6">
+    <h2 className="text-xl font-bold tracking-tight text-black">{title}</h2>
+    <p className="mt-1 text-sm text-black/60">{text}</p>
   </div>
 );
 
 const Skeleton = () => (
-  <div className="animate-pulse">
-    <div className="mb-2 h-9 w-72 rounded-lg bg-gray-200" />
-    <div className="mb-8 h-4 w-96 max-w-full rounded bg-gray-200" />
+  <div className="animate-pulse max-w-6xl">
+    <div className="mb-8 rounded-[2rem] bg-white p-12 ring-1 ring-black/[0.06]">
+      <div className="mb-4 h-12 w-80 max-w-full rounded-xl bg-gray-200" />
+      <div className="h-4 w-96 max-w-full rounded bg-gray-200" />
+    </div>
     <div className="grid gap-6 lg:grid-cols-5">
-      <div className="space-y-4 rounded-2xl bg-white p-8 shadow-md lg:col-span-3">
+      <div className="space-y-4 rounded-3xl bg-white p-8 ring-1 ring-black/[0.06] lg:col-span-3">
         {[...Array(5)].map((_, i) => (
-          <div key={i} className="h-11 rounded-xl bg-gray-100" />
+          <div key={i} className="h-12 rounded-xl bg-gray-100" />
         ))}
       </div>
-      <div className="h-72 rounded-2xl bg-white shadow-md lg:col-span-2" />
+      <div className="h-80 rounded-3xl bg-white ring-1 ring-black/[0.06] lg:col-span-2" />
     </div>
   </div>
 );
@@ -116,15 +119,32 @@ const AdminAbout = () => {
   const initial = (formData.name || "?").trim().charAt(0).toUpperCase();
 
   return (
-    <div>
+    <div className="max-w-6xl">
+      <style>{`
+        @keyframes dash-rise {
+          from { opacity: 0; transform: translateY(18px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes toast-in {
+          from { opacity: 0; transform: translateY(-12px) scale(.97); }
+          to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .dash-rise { opacity: 0; animation: dash-rise .8s cubic-bezier(.2,.7,.2,1) forwards; }
+        .toast-in { animation: toast-in .35s cubic-bezier(.2,.7,.2,1) both; }
+        @media (prefers-reduced-motion: reduce) {
+          .dash-rise { opacity: 1; animation: none; }
+          .toast-in { animation: none; }
+        }
+      `}</style>
+
       {/* Toast */}
       {message && (
         <div
           role="status"
-          className={`fixed right-6 top-6 z-50 flex items-center gap-3 rounded-xl border bg-white px-5 py-3 text-sm font-semibold shadow-lg ${
+          className={`toast-in fixed right-6 top-6 z-50 flex items-center gap-3 rounded-2xl bg-white px-5 py-3.5 text-sm font-semibold shadow-[0_20px_40px_-12px_rgba(16,24,40,0.3)] ring-1 ${
             message.type === "success"
-              ? "border-green-200 text-green-700"
-              : "border-red-200 text-red-600"
+              ? "ring-green-200 text-green-700"
+              : "ring-red-200 text-red-600"
           }`}
         >
           <span
@@ -139,21 +159,39 @@ const AdminAbout = () => {
       )}
 
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-dark">Edit About Section</h1>
-        <p className="mt-1 text-gray-500">
-          Update how you introduce yourself. The preview on the right shows your
-          changes as you type.
-        </p>
+      <div
+        className="dash-rise relative mb-8 overflow-hidden rounded-[2rem] bg-white px-8 py-12 ring-1 ring-black/[0.06] shadow-[0_1px_2px_rgba(16,24,40,0.05),0_30px_60px_-30px_rgba(16,24,40,0.2)] md:px-16 md:py-16"
+        style={{ animationDelay: "0ms" }}
+      >
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.12]"
+          style={{
+            backgroundImage: "radial-gradient(rgba(0,0,0,0.9) 1px, transparent 1px)",
+            backgroundSize: "28px 28px",
+            WebkitMaskImage: "radial-gradient(ellipse at 90% 0%, black, transparent 65%)",
+            maskImage: "radial-gradient(ellipse at 90% 0%, black, transparent 65%)",
+          }}
+        />
+        <div className="pointer-events-none absolute bottom-8 left-0 top-8 w-1 rounded-r-full bg-primary" />
+        <div className="relative">
+          <h1 className="text-4xl font-bold leading-[1.05] tracking-[-0.03em] text-black md:text-6xl">
+            Edit About Section
+          </h1>
+          <p className="mt-4 max-w-xl text-lg leading-relaxed text-black/60">
+            Update how you introduce yourself. The preview on the right shows your
+            changes as you type.
+          </p>
+        </div>
       </div>
 
       <div className="grid items-start gap-6 lg:grid-cols-5">
         {/* Form */}
         <form
           onSubmit={handleSubmit}
-          className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-md lg:col-span-3"
+          className="dash-rise overflow-hidden rounded-3xl bg-white ring-1 ring-black/[0.06] shadow-[0_1px_2px_rgba(16,24,40,0.05),0_24px_50px_-24px_rgba(16,24,40,0.2)] lg:col-span-3"
+          style={{ animationDelay: "120ms" }}
         >
-          <div className="space-y-8 p-6 sm:p-8">
+          <div className="space-y-9 p-6 sm:p-10">
             <section>
               <SectionTitle
                 title="Identity"
@@ -265,11 +303,13 @@ const AdminAbout = () => {
           </div>
 
           {/* Action bar */}
-          <div className="flex flex-col-reverse items-stretch justify-between gap-3 border-t border-gray-100 bg-gray-50/70 px-6 py-4 sm:flex-row sm:items-center sm:px-8">
-            <p className="flex items-center gap-2 text-sm text-gray-500">
+          <div className="flex flex-col-reverse items-stretch justify-between gap-3 border-t border-gray-100 bg-gray-50/70 px-6 py-5 sm:flex-row sm:items-center sm:px-10">
+            <p className="flex items-center gap-2.5 text-sm text-black/60">
               <span
                 className={`h-2 w-2 rounded-full ${
-                  isDirty ? "bg-amber-400" : "bg-green-500"
+                  isDirty
+                    ? "bg-amber-400 shadow-[0_0_0_4px_rgba(251,191,36,0.2)]"
+                    : "bg-green-500 shadow-[0_0_0_4px_rgba(34,197,94,0.15)]"
                 }`}
               />
               {isDirty ? "You have unsaved changes" : "All changes saved"}
@@ -279,17 +319,17 @@ const AdminAbout = () => {
                 type="button"
                 onClick={handleDiscard}
                 disabled={!isDirty || saving}
-                className="rounded-xl border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-dark transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
+                className="rounded-xl bg-white px-5 py-3 text-sm font-semibold text-black ring-1 ring-black/10 transition-all duration-300 hover:bg-gray-50 hover:ring-black/25 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Discard
               </button>
               <button
                 type="submit"
                 disabled={!isDirty || saving}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-dark hover:shadow-md focus:outline-none focus:ring-4 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-7 py-3 text-sm font-semibold text-white ring-1 ring-primary shadow-lg shadow-primary/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:bg-primary disabled:hover:text-white"
               >
                 {saving && (
-                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-current/40 border-t-current" />
                 )}
                 {saving ? "Saving..." : "Save Changes"}
               </button>
@@ -298,33 +338,44 @@ const AdminAbout = () => {
         </form>
 
         {/* Live preview */}
-        <aside className="lg:sticky lg:top-6 lg:col-span-2">
-          <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-md">
-            <div className="h-20 bg-primary" />
-            <div className="px-6 pb-6">
-              <div className="-mt-9 flex h-[72px] w-[72px] items-center justify-center rounded-2xl border-4 border-white bg-dark text-2xl font-bold text-white shadow-md">
+        <aside
+          className="dash-rise lg:sticky lg:top-32 lg:col-span-2"
+          style={{ animationDelay: "240ms" }}
+        >
+          <div className="overflow-hidden rounded-3xl bg-white ring-1 ring-black/[0.06] shadow-[0_1px_2px_rgba(16,24,40,0.05),0_30px_60px_-28px_rgba(16,24,40,0.3)]">
+            <div className="relative h-24 bg-primary">
+              <div
+                className="pointer-events-none absolute inset-0 opacity-25"
+                style={{
+                  backgroundImage: "radial-gradient(rgba(255,255,255,0.9) 1px, transparent 1px)",
+                  backgroundSize: "20px 20px",
+                }}
+              />
+            </div>
+            <div className="px-7 pb-7">
+              <div className="relative z-10 -mt-10 flex h-20 w-20 items-center justify-center rounded-2xl border-4 border-white bg-white text-3xl font-bold text-black shadow-[0_14px_28px_-10px_rgba(16,24,40,0.4)] ring-1 ring-black/10">
                 {initial}
               </div>
-              <h3 className="mt-4 text-xl font-bold text-dark">
+              <h3 className="mt-5 text-2xl font-bold tracking-tight text-black">
                 {formData.name || "Your name"}
               </h3>
               <p className="text-sm font-semibold text-primary">
                 {formData.role || "Your role"}
               </p>
-              <p className="mt-4 text-base font-medium italic text-dark/80">
+              <p className="mt-5 text-base font-medium italic text-black/80">
                 {formData.tagline || "Your tagline appears here"}
               </p>
-              <p className="mt-2 text-sm leading-relaxed text-gray-600">
+              <p className="mt-2 text-sm leading-relaxed text-black/65">
                 {formData.description || "Your short description appears here."}
               </p>
-              <div className="mt-5 border-t border-gray-100 pt-4">
-                <p className="line-clamp-5 whitespace-pre-line text-sm leading-relaxed text-gray-500">
+              <div className="mt-6 border-t border-gray-100 pt-5">
+                <p className="line-clamp-5 whitespace-pre-line text-sm leading-relaxed text-black/55">
                   {formData.aboutText || "Your detailed about text appears here."}
                 </p>
               </div>
             </div>
           </div>
-          <p className="mt-3 text-center text-xs text-gray-400">
+          <p className="mt-3 text-center text-xs text-black/40">
             Live preview. The public page may look slightly different.
           </p>
         </aside>
