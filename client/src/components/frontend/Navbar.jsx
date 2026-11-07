@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { FiArrowRight } from "react-icons/fi";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import GooeyNav from "../GooeyNav"; 
 import TextPressure from "../TextPressure";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate(); // Navigation ke liye
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,7 +25,6 @@ const Navbar = () => {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  // Pages ke routes
   const items = [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
@@ -34,11 +33,20 @@ const Navbar = () => {
     { label: "Contact", href: "/contact" },
   ];
 
+  const activeIndex = items.findIndex(item => item.href === location.pathname);
+  const currentIndex = activeIndex !== -1 ? activeIndex : 0;
+
   const solid = isScrolled || isOpen;
 
-  // GooeyNav ke click event ko handle karna
+  // Yahan hum GooeyNav se click receive karenge
   const handleNavClick = (index, item) => {
-    navigate(item.href);
+    if (location.pathname === item.href) return;
+    
+    // Hum navigate nahi karenge, bas URL change karenge thodi der baad
+    // Taaki GooeyNav apna animation khatam kar le
+    setTimeout(() => {
+      navigate(item.href);
+    }, 650); // 650ms delay diya hai
   };
 
   return (
@@ -81,11 +89,11 @@ const Navbar = () => {
           <div className="hidden md:flex absolute left-1/2 -translate-x-1/2">
             <GooeyNav
               items={items}
-              onChange={handleNavClick} // Yahan click handle karenge
+              onChange={handleNavClick} 
+              initialActiveIndex={currentIndex} 
               particleCount={15}
               particleDistances={[90, 10]}
               particleR={100}
-              initialActiveIndex={0}
               animationTime={600}
               timeVariance={300}
               theme="light"

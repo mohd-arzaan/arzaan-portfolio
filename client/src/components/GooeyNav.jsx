@@ -793,14 +793,18 @@ const GooeyNav = ({
           </li>
         );
       }
-      const shared = {
+           const shared = {
         className: LINK,
         'aria-current': index === current ? 'page' : undefined,
         onClick: event => {
-          if (!item.href || item.href === '#') event.preventDefault();
+          // Agar href internal route hai (/ se start hota hai) toh browser ko navigate mat karne do
+          if (item.href && item.href.startsWith('/')) {
+            event.preventDefault();
+          }
           select(index);
         }
       };
+      
       return (
         <li
           key={index}
