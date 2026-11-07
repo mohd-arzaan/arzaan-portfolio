@@ -8,36 +8,38 @@ import AdminAbout from "./pages/AdminAbout";
 import AdminSkills from "./pages/AdminSkills";
 import AdminSocials from "./pages/AdminSocials";
 import AdminMessages from "./pages/AdminMessages";
-import Home from "./pages/Home"; // <-- Naya import
+import Home from "./pages/Home";
+import AboutPage from "./pages/AboutPage";
+import SkillsPage from "./pages/SkillsPage";
+import ProjectsPage from "./pages/ProjectsPage";
+import ContactPage from "./pages/ContactPage";
 
 function App() {
   return (
-    <div className="font-sans">
-      <Router>
-        <Routes>
-          {/* Frontend Website Route */}
-          <Route path="/" element={<Home />} />
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/skills" element={<SkillsPage />} />
+        <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/contact" element={<ContactPage />} />
 
-          {/* Admin Login Route */}
-          <Route path="/admin" element={<AdminLogin />} />
-          
-          {/* Admin Protected Routes */}
-          <Route element={<ProtectedRoute />}>
-            <Route path="/admin" element={<AdminLayout />}>
-              <Route path="dashboard" element={<AdminDashboard />} />
-              <Route path="projects" element={<AdminProjects />} />
-              <Route path="about" element={<AdminAbout />} />
-              <Route path="skills" element={<AdminSkills />} />
-              <Route path="socials" element={<AdminSocials />} />
-              <Route path="messages" element={<AdminMessages />} />
-            </Route>
+        <Route path="/admin" element={<AdminLogin />} />
+        
+        <Route element={<ProtectedRoute />}>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="projects" element={<AdminProjects />} />
+            <Route path="about" element={<AdminAbout />} />
+            <Route path="skills" element={<AdminSkills />} />
+            <Route path="socials" element={<AdminSocials />} />
+            <Route path="messages" element={<AdminMessages />} />
           </Route>
+        </Route>
 
-          {/* Default redirect */}
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </Router>
-    </div>
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </Router>
   );
 }
 
