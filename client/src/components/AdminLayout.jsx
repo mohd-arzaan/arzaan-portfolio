@@ -1,6 +1,6 @@
 import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { 
-  FiGrid, FiFolder, FiUser, FiCode, FiShare2, FiMail, FiLogOut, FiArrowLeft
+  FiGrid, FiFolder, FiUser, FiCode, FiShare2, FiMail, FiLogOut, FiArrowLeft, FiHome
 } from "react-icons/fi"; 
 
 const AdminLayout = () => {
@@ -62,8 +62,19 @@ const AdminLayout = () => {
           })}
         </nav>
 
-        {/* Logout Area */}
-        <div className="p-6 border-t border-gray-100">
+        {/* Footer Area: Go to Website & Logout */}
+        <div className="p-6 border-t border-gray-100 space-y-2">
+          
+          {/* Go to Website Button */}
+          <Link 
+            to="/" 
+            className="w-full flex items-center gap-4 px-4 py-3.5 rounded-xl text-black/70 hover:bg-blue-50 hover:text-primary transition-all duration-300 group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          >
+            <FiHome size={20} strokeWidth={1.5} className="text-gray-400 group-hover:text-primary group-hover:-translate-x-0.5 transition-all" />
+            <span className="text-[1.15rem] font-medium">Go to Website</span>
+          </Link>
+
+          {/* Logout Button */}
           <button 
             onClick={handleLogout} 
             className="w-full flex items-center gap-4 px-4 py-3.5 rounded-xl text-black/70 hover:bg-red-50 hover:text-red-600 transition-all duration-300 group focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
@@ -71,6 +82,7 @@ const AdminLayout = () => {
             <FiLogOut size={20} strokeWidth={1.5} className="text-gray-400 group-hover:text-red-500 group-hover:-translate-x-0.5 transition-all" />
             <span className="text-[1.15rem] font-medium">Logout</span>
           </button>
+
         </div>
       </aside>
 

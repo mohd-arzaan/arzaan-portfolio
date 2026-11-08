@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { FiArrowLeft } from "react-icons/fi";
 import API from "../api/axios";
 
 // Common input styling (email + password dono ke liye same)
@@ -35,6 +36,17 @@ const AdminLogin = () => {
           .dash-rise { opacity: 1; animation: none; }
         }
       `}</style>
+
+      {/* Back to Website Button - Added at Top Left */}
+      <div className="absolute top-8 left-8 z-20 dash-rise" style={{ animationDelay: "200ms" }}>
+        <Link 
+          to="/" 
+          className="group flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-primary transition-colors bg-white/50 backdrop-blur-md px-5 py-2.5 rounded-full ring-1 ring-black/[0.06] shadow-sm hover:shadow-md hover:-translate-y-0.5"
+        >
+          <FiArrowLeft className="group-hover:-translate-x-1 transition-transform" /> 
+          Back to Website
+        </Link>
+      </div>
 
       {/* Background dot grid */}
       <div
