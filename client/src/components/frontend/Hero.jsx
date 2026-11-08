@@ -3,7 +3,7 @@ import ProfileCard from "../ProfileCard";
 
 const Hero = () => {
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-[#f8fafc] font-serif text-black">
+    <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-transparent font-serif text-black">
       <style>{`
         @keyframes hero-rise {
           from { opacity: 0; transform: translateY(24px); }
