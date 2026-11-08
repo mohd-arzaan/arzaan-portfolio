@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import Navbar from "../components/frontend/Navbar";
-import Lanyard from "../components/Lanyard";
 import Footer from "../components/frontend/Footer";
 import API from "../api/axios";
+
+// Lanyard ko lazy load kiya taaki page turant khule aur atke nahi
+const Lanyard = lazy(() => import("../components/Lanyard"));
 
 const AboutPage = () => {
   const [about, setAbout] = useState(null);
@@ -57,15 +59,22 @@ const AboutPage = () => {
         }}
       />
 
-      {/* Lanyard layer */}
-      <div className="absolute inset-x-0 top-0 z-0 h-[560px] md:fixed md:inset-0 md:h-auto">
-        <Lanyard
-          frontImage="/arzaan.png"
-          backImage="/arzaan.png"
-          anchor={isMobile ? "center" : "left"}
-          size={isMobile ? 0.52 : 0.62}
-          strapColor="#2563eb"
-        />
+      {/* Lanyard layer with Suspense */}
+      <div className="absolute inset-x-0 top-0 z-0 h-[560px] md:fixed md:inset-0 md:h-auto flex justify-center items-center md:items-start md:justify-start">
+        <Suspense fallback={
+          <div className="w-full h-full flex flex-col items-center justify-center opacity-60 mt-20 md:mt-0">
+            <div className="w-10 h-10 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin mb-4"></div>
+            <p className="text-sm font-medium text-black/50 animate-pulse">Loading 3D Card...</p>
+          </div>
+        }>
+          <Lanyard
+            frontImage="/arzaan.png"
+            backImage="/arzaan.png"
+            anchor={isMobile ? "center" : "left"}
+            size={isMobile ? 0.52 : 0.62}
+            strapColor="#2563eb"
+          />
+        </Suspense>
       </div>
 
       <Navbar />
