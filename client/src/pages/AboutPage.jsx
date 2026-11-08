@@ -3,7 +3,6 @@ import Navbar from "../components/frontend/Navbar";
 import Footer from "../components/frontend/Footer";
 import API from "../api/axios";
 
-// Lanyard ko lazy load kiya taaki page turant khule aur atke nahi
 const Lanyard = lazy(() => import("../components/Lanyard"));
 
 const AboutPage = () => {
@@ -13,7 +12,6 @@ const AboutPage = () => {
   );
 
   useEffect(() => {
-    // Fetch data from Admin Panel
     const fetchAbout = async () => {
       try {
         const { data } = await API.get("/about");
@@ -24,7 +22,6 @@ const AboutPage = () => {
     };
     fetchAbout();
 
-    // Mobile responsiveness
     const mq = window.matchMedia("(max-width: 767px)");
     const onChange = (e) => setIsMobile(e.matches);
     mq.addEventListener("change", onChange);
@@ -43,8 +40,20 @@ const AboutPage = () => {
         .about-title { font-size: clamp(3.25rem, 6vw, 5.5rem) !important; line-height: 1.05 !important; letter-spacing: normal !important; }
         .about-title span { font-size: inherit !important; line-height: inherit !important; letter-spacing: inherit !important; font-weight: inherit !important; }
 
+        /* Premium 3D Card Shimmer Effect */
+        .card-shimmer {
+          background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%);
+          background-size: 200% 100%;
+          animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .page-rise { opacity: 1; animation: none; }
+          .card-shimmer { animation: none; }
         }
       `}</style>
 
@@ -59,12 +68,22 @@ const AboutPage = () => {
         }}
       />
 
-      {/* Lanyard layer with Suspense */}
-      <div className="absolute inset-x-0 top-0 z-0 h-[560px] md:fixed md:inset-0 md:h-auto flex justify-center items-center md:items-start md:justify-start">
+      {/* Lanyard Layer with Premium Card Skeleton */}
+      <div className="absolute inset-x-0 top-0 z-0 h-[560px] md:fixed md:inset-0 md:h-auto flex justify-center md:items-center md:justify-start">
         <Suspense fallback={
-          <div className="w-full h-full flex flex-col items-center justify-center opacity-60 mt-20 md:mt-0">
-            <div className="w-10 h-10 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin mb-4"></div>
-            <p className="text-sm font-medium text-black/50 animate-pulse">Loading 3D Card...</p>
+          <div className={`w-full h-full flex flex-col items-center justify-center ${isMobile ? 'mt-20' : 'md:items-start md:ml-[18%] md:mt-10'}`}>
+            {/* 3D Lanyard Card Skeleton */}
+            <div className="relative w-[240px] h-[340px] bg-white rounded-[20px] ring-1 ring-black/[0.05] shadow-xl flex flex-col items-center justify-center overflow-hidden transform rotate-[-2deg]">
+              <div className="absolute inset-0 card-shimmer opacity-50" />
+              {/* Photo Area */}
+              <div className="w-[160px] h-[160px] bg-gray-200/50 rounded-full mb-6 ring-4 ring-white shadow-inner" />
+              {/* Text Lines */}
+              <div className="h-4 bg-gray-200/60 rounded-full w-[120px] mb-3" />
+              <div className="h-3 bg-gray-200/40 rounded-full w-[80px]" />
+              
+              {/* Blue Strap hint at top */}
+              <div className="absolute top-0 w-4 h-full bg-blue-600/10 blur-sm -left-4 rotate-12" />
+            </div>
           </div>
         }>
           <Lanyard
@@ -86,7 +105,7 @@ const AboutPage = () => {
             About <span className="text-blue-600">Me</span>
           </h1>
           
-          {/* Yahan Admin Panel ka data render ho raha hai */}
+          {/* Premium Text Skeleton */}
           {about ? (
             <div className="space-y-6">
               <h2 className="text-3xl font-semibold text-blue-600 pointer-events-auto">
@@ -100,7 +119,18 @@ const AboutPage = () => {
               </div>
             </div>
           ) : (
-            <p className="text-xl text-gray-500 animate-pulse">Loading data...</p>
+            <div className="space-y-5 animate-pulse mt-4">
+              <div className="h-8 bg-blue-100/60 rounded-lg w-1/3"></div>
+              <div className="space-y-3">
+                <div className="h-4 bg-gray-200/60 rounded-md w-full"></div>
+                <div className="h-4 bg-gray-200/60 rounded-md w-11/12"></div>
+              </div>
+              <div className="space-y-3 pt-4">
+                <div className="h-4 bg-gray-200/40 rounded-md w-full"></div>
+                <div className="h-4 bg-gray-200/40 rounded-md w-5/6"></div>
+                <div className="h-4 bg-gray-200/40 rounded-md w-4/6"></div>
+              </div>
+            </div>
           )}
         </div>
       </div>

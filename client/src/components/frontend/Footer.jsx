@@ -3,7 +3,6 @@ import API from "../../api/axios";
 import { Link } from "react-router-dom";
 import { FiLock, FiArrowUpRight, FiArrowUp } from "react-icons/fi";
 
-// Navbar jaise hi pages (Footer mein quick navigation)
 const NAV_LINKS = [
   { name: "Home", to: "/" },
   { name: "About", to: "/about" },
@@ -29,7 +28,6 @@ const Footer = () => {
     fetchSocials();
   }, []);
 
-  // Footer screen par aate hi reveal
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setVisible(true);
@@ -48,7 +46,6 @@ const Footer = () => {
     return () => io.disconnect();
   }, []);
 
-  // Cursor ke saath bade naam mein "bharne" wali spotlight
   const handleMove = (e) => {
     const r = e.currentTarget.getBoundingClientRect();
     e.currentTarget.style.setProperty("--x", `${e.clientX - r.left}px`);
@@ -64,9 +61,10 @@ const Footer = () => {
     style: { transitionDelay: `${delay}ms` },
   });
 
-  const fillMask = {
-    WebkitMaskImage: "radial-gradient(260px circle at var(--x, 50%) var(--y, 50%), black, transparent 75%)",
-    maskImage: "radial-gradient(260px circle at var(--x, 50%) var(--y, 50%), black, transparent 75%)",
+  // Ekdum simple mask sirf hover layer ke liye
+  const hoverMask = {
+    WebkitMaskImage: "radial-gradient(250px circle at var(--x, 50%) var(--y, 50%), black 20%, transparent 80%)",
+    maskImage: "radial-gradient(250px circle at var(--x, 50%) var(--y, 50%), black 20%, transparent 80%)",
   };
 
   return (
@@ -75,18 +73,39 @@ const Footer = () => {
       className="relative mt-auto overflow-hidden border-t border-black/[0.06] bg-[#f8fafc] font-serif text-black"
     >
       <style>{`
+        /* Yahan maine size ekdum fix kar diya hai */
         .footer-word {
-          font-size: clamp(4.5rem, 20vw, 19rem) !important;
-          line-height: 0.82 !important;
-          letter-spacing: -0.05em !important;
+          font-size: clamp(5rem, 25vw, 22rem) !important; 
+          line-height: 0.8 !important;
+          letter-spacing: -0.04em !important;
           font-weight: 700 !important;
+          white-space: nowrap;
         }
-        .footer-word div { font-size: inherit !important; line-height: inherit !important; letter-spacing: inherit !important; }
-        .footer-outline { color: transparent; -webkit-text-stroke: 1.5px rgba(0, 0, 0, 0.14); }
-        .footer-fill { color: #000; }
+        .footer-word span { 
+          font-size: inherit !important; 
+          line-height: inherit !important; 
+          letter-spacing: inherit !important; 
+          display: inline-block;
+        }
+        
+        /* Letter Animation */
+        @keyframes letter-bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-8px); }
+        }
+        .wordmark-container:hover span {
+          animation: letter-bounce 1.2s ease-in-out infinite;
+        }
+        
+        .wordmark-container:hover span:nth-child(1) { animation-delay: 0s; }
+        .wordmark-container:hover span:nth-child(2) { animation-delay: 0.1s; }
+        .wordmark-container:hover span:nth-child(3) { animation-delay: 0.2s; }
+        .wordmark-container:hover span:nth-child(4) { animation-delay: 0.3s; }
+        .wordmark-container:hover span:nth-child(5) { animation-delay: 0.4s; }
+        .wordmark-container:hover span:nth-child(6) { animation-delay: 0.5s; }
+        .wordmark-container:hover span:nth-child(7) { animation-delay: 0.6s; }
       `}</style>
 
-      {/* Background dot pattern */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.05]"
         style={{
@@ -97,12 +116,8 @@ const Footer = () => {
         }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-
-        {/* Top: brand + navigation + socials */}
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 z-10">
         <div className="grid gap-14 pt-20 pb-16 md:grid-cols-12">
-
-          {/* Logo & Copyright */}
           <div {...reveal(0)} className={`${reveal(0).className} md:col-span-5 text-center md:text-left flex flex-col items-center md:items-start`}>
             <Link to="/" className="group mb-4 block text-4xl md:text-5xl font-bold text-black tracking-tight">
               Arzaan
@@ -113,7 +128,6 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Navigation */}
           <div {...reveal(120)} className={`${reveal(120).className} md:col-span-3 text-center md:text-left`}>
             <div className="mb-6 text-xs font-semibold uppercase tracking-[0.2em] text-black/40">Explore</div>
             <ul className="space-y-3.5">
@@ -131,7 +145,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Social Links */}
           <div {...reveal(240)} className={`${reveal(240).className} md:col-span-4 text-center md:text-left`}>
             <div className="mb-6 text-xs font-semibold uppercase tracking-[0.2em] text-black/40">Connect</div>
             <ul className="space-y-3.5">
@@ -153,12 +166,10 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Divider + bottom bar */}
         <div
           {...reveal(300)}
           className={`${reveal(300).className} flex flex-col items-center justify-between gap-5 border-t border-black/[0.08] py-7 sm:flex-row`}
         >
-          {/* Discreet Admin Login Link */}
           <Link 
             to="/admin" 
             className="group flex items-center gap-2 text-sm text-black/30 transition-colors duration-300 hover:text-blue-600"
@@ -168,7 +179,6 @@ const Footer = () => {
             <div className="opacity-0 transition-opacity duration-300 group-hover:opacity-100">Admin Panel</div>
           </Link>
 
-          {/* Back to top */}
           <button
             onClick={scrollTop}
             aria-label="Back to top"
@@ -179,27 +189,28 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Giant wordmark: outline, cursor ke paas fill hota hai */}
+      {/* Giant wordmark */}
       <div
         onMouseMove={handleMove}
-        className={`relative mx-auto max-w-[1600px] select-none overflow-hidden px-4 text-center transition-all duration-1000 ease-out ${
+        className={`wordmark-container relative w-full select-none overflow-hidden text-center transition-all duration-1000 ease-out ${
           visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
         }`}
         style={{
           transitionDelay: "400ms",
-          WebkitMaskImage: "linear-gradient(to bottom, black 55%, transparent 100%)",
-          maskImage: "linear-gradient(to bottom, black 55%, transparent 100%)",
         }}
         aria-hidden="true"
       >
-        <div className="footer-word footer-outline pt-4 pb-[0.04em]">
-          Arzaan<div className="inline">.</div>
+        {/* Layer 1: Solid Black Base */}
+        <div className="footer-word text-black pt-4 pb-[0.04em]">
+          <span>A</span><span>r</span><span>z</span><span>a</span><span>a</span><span>n</span><span className="text-blue-600">.</span>
         </div>
+
+        {/* Layer 2: Blue Fill (Reveals only around mouse) */}
         <div
-          className="footer-word footer-fill pointer-events-none absolute inset-0 pt-4 pb-[0.04em] opacity-0 transition-opacity duration-500 [div:hover>&]:opacity-100"
-          style={fillMask}
+          className="footer-word absolute inset-0 pt-4 pb-[0.04em] text-blue-600 pointer-events-none"
+          style={hoverMask}
         >
-          Arzaan<div className="inline text-blue-600">.</div>
+          <span>A</span><span>r</span><span>z</span><span>a</span><span>a</span><span>n</span><span>.</span>
         </div>
       </div>
     </footer>

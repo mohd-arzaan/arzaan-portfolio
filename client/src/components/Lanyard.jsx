@@ -1272,17 +1272,24 @@ const Lanyard = ({
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
       document.removeEventListener('visibilitychange', onVisibility);
+      
       canvas.removeEventListener('pointerdown', onPointerDown);
       canvas.removeEventListener('pointermove', onPointerMove);
       canvas.removeEventListener('pointerup', onPointerUp);
       canvas.removeEventListener('pointercancel', onPointerUp);
       canvas.removeEventListener('lostpointercapture', onPointerUp);
       canvas.removeEventListener('touchstart', onTouchStart);
+      
       [bodyMesh, frontMesh, backMesh, ring, clampMesh, eyelet, band].forEach(mesh => mesh.geometry?.dispose());
       [frontMaterial, backMaterial, edgeMaterial, metalMaterial, bandMaterial].forEach(material => material.dispose());
       [frontTexture, backTexture, strapTexture, grain, weave].forEach(texture => texture.dispose());
+      
       environment.dispose();
+      
+      // Forcefully dispose WebGL context after all other cleanup
+      renderer.forceContextLoss();
       renderer.dispose();
+      
       if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
     };
   }, []);

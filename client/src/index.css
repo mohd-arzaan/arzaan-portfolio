@@ -9,29 +9,67 @@
 @theme {
   --color-primary: #2563eb;
   --color-primary-dark: #1d4ed8;
-  --color-dark: #0f172a;
-  --color-light: #f8fafc;
 
-  /* Font family define ki */
+  /* Pehle dark blue (#0f172a) tha, ab warm black (cream ke saath match) */
+  --color-dark: #15110d;
+
+  /* Page ka cream background */
+  --color-light: #FAF5EF;
+
+  /* ===== Warm palette: cream + blue ke saath match karta hai ===== */
+  /* Cards / white surfaces: pure white ki jagah warm white (cream mein ghul jaata hai) */
+  --color-white: #FFFDF9;
+  /* Text ke liye pure black ki jagah halka warm black */
+  --color-black: #15110d;
+
+  /* Tint colors (sections, inputs, chips) */
+  --color-sand: #F2E8DB;
+  --color-peach: #EE9B6A; /* optional warm accent (blue ka complement) */
+
+  /* Grays ko warm bana diya, taaki borders/backgrounds cream se alag na dikhein */
+  --color-gray-50: #F7F1E9;
+  --color-gray-100: #F1E9DE;
+  --color-gray-200: #E8DED1;
+  --color-gray-300: #D9CDBE;
+  --color-gray-400: #A39A8E;
+  --color-gray-500: #7A7166;
+  --color-gray-600: #5C544B;
+  --color-gray-700: #433D36;
+  --color-gray-800: #2A2621;
+  --color-gray-900: #1A1714;
+
   --font-sans: "Cormorant Garamond", serif;
   --font-serif: "Cormorant Garamond", serif;
 }
 
-/* Poore body pe apply kar diya */
+/* Body */
 body {
-  font-family: "Cormorant Garamond", serif;
-  background-color: #fafafa;
+  font-family: "Cormorant Garamond", serif !important;
+  background-color: #FAF5EF !important; 
+  color: #15110d;
   -webkit-font-smoothing: antialiased;
+  
+  /* Halka sa subtle dot texture */
+  background-image: radial-gradient(#e5ddd5 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-attachment: fixed;
 }
 
-/* Serif font chhota lagta hai, isliye base text size thoda bada kiya hai */
-p, a, span, button, input, textarea, select {
-  font-size: 1.1rem; 
+/*
+  PEHLE: p, a, span, button... ka font-size layer ke bahar tha, isliye
+  Tailwind ki text-sm / text-xl / text-6xl jaisi classes in tags par kaam hi nahi
+  karti thi (heading ke span chhote ho jaate the). Ab ye @layer base mein hai,
+  to default 1.1rem rahega par Tailwind classes isse override kar sakengi.
+*/
+@layer base {
+  p, a, span, button, input, textarea, select {
+    font-size: 1.1rem;
+  }
 }
 
 @theme inline {
   --font-heading: var(--font-sans);
-  --font-sans: 'Cormorant Garamond', serif; /* Geist ko hata kar tumhara font lagaya */
+  --font-sans: 'Cormorant Garamond', serif; 
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -73,14 +111,13 @@ p, a, span, button, input, textarea, select {
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  --background: #FAF5EF !important; 
+  --foreground: #15110d;
+  --card: #FFFDF9; 
+  --card-foreground: #15110d;
+  --popover: #FFFDF9;
+  --popover-foreground: #15110d;
   
-  /* Yahan Primary color Blue (#2563eb) kar diya hai */
   --primary: #2563eb; 
   --primary-foreground: #ffffff;
   
@@ -150,9 +187,11 @@ p, a, span, button, input, textarea, select {
   }
   body {
     @apply bg-background text-foreground;
-    font-family: "Cormorant Garamond", serif !important; /* Force font */
+    font-family: "Cormorant Garamond", serif !important; 
+    background-color: #FAF5EF !important; 
   }
   html {
-    font-family: "Cormorant Garamond", serif !important; /* Force font */
+    font-family: "Cormorant Garamond", serif !important; 
+    background-color: #FAF5EF !important; 
   }
 }
